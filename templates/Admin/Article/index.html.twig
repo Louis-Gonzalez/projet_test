@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Liste des articles
+    {{parent()}}
+{% endblock %}
+
+{% block body %}
+    {# section.container>h1.text-center{Liste des articles} #}
+    <section class="container">
+        <h1 class="text-center">Liste des articles</h1>
+        {% include 'Admin/Article/_table.html.twig' %}
+    </section>
+
+
+{% endblock %}

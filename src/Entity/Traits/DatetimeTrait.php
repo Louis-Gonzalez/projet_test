@@ -37,7 +37,7 @@ trait DatetimeTrait {
         return $this;
     }
     
-    #[ORM\PrePersit]
+    #[ORM\PrePersist]
     public function autoCreatedAt(): static
     {
         if (!$this->createdAt){
