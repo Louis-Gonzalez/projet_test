@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
@@ -67,6 +68,22 @@ class ArticleController extends AbstractController {
         return $this->render('Admin/Article/update.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    #[Route('/delete/{id}', name: '_delete', methods: ['POST'])]
+    public function delete(Article $article, Request $request) : RedirectResponse 
+    {
+        if($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('token'))) {
+            $this->em->remove($article);
+            $this->em->flush();
+
+            $this->addFlash('success', 'L\'article a bien été supprimé.');
+        }
+        else {
+            $this->addFlash('danger', 'Le token est invalide.');
+        }
+
+        return $this->redirectToRoute('admin_article_index');
     }
 
 }
